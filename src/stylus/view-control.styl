@@ -25,6 +25,14 @@
 
 \******************************************************************************/
 
+// Home buttons while their axis homes.  Animations override the disabled
+// button's fixed opacity, so the pulse shows on the disabled button.
+@keyframes home-pulse
+  0%, 100%
+    opacity 1
+  50%
+    opacity 0.35
+
 // The control page fits the window without scrolling: the 3D view and
 // program take whatever height the controls below them leave.
 .view-control-page #main
@@ -237,7 +245,8 @@
       height 1.6em
       vertical-align middle
 
-    // Square icon buttons; the home button's colour shows homing state
+    // Square icon buttons; the row and state icon already show homing
+    // state, so the buttons stay grey and only pulse while homing
     .pure-button.square
       display inline-flex
       align-items center
@@ -250,11 +259,17 @@
         width 1.4em
         height 1.4em
 
-    .state-homed, .home-homed
+    .home .pure-button
+      color text-muted
+
+      &.homing
+        animation home-pulse 1.2s ease-in-out infinite
+
+    .state-homed
       color ok-color
-    .state-unhomed, .home-unhomed
+    .state-unhomed
       color warn-color
-    .state-error, .home-error
+    .state-error
       color err-color
 
   // Jog and spindle controls, third column of the DRO row

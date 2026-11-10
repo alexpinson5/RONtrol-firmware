@@ -109,6 +109,15 @@ module.exports = {
 
 
   methods: {
+    // One binding for both classes: an interpolated class attribute beside
+    // :class overwrites it on first render, hiding the default selection
+    axis_class(name) {
+      let klass = {active: this.axis == name}
+      klass['axis-' + name.toLowerCase()] = true
+      return klass
+    },
+
+
     select_axis(axis) {
       if (this.held) return
       this.axis = axis

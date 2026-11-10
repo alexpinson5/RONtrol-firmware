@@ -239,7 +239,7 @@ script#view-control-template(type="text/x-template")
             th.home
               button.pure-button.square(title="Home all axes.",
                 @click="home_all", :disabled="!is_idle",
-                :class="'home-' + axes.stateClass")
+                :class="{homing: is_homing('all')}")
                 bi-icon(name="house-door-fill")
 
           each axis in 'xyzabc'

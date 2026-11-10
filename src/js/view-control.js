@@ -45,7 +45,8 @@ module.exports = {
       snaps: 'angled top bottom front back left right'.split(' '),
       viewer_tab: this.$root.webGLSupported ? '3d' : 'messages',
       unseen_level: '', // 'warning' or 'error' while Messages is hidden
-      new_tool: ''
+      new_tool: '',
+      homing_target: '' // Axis letter or 'all' for the last home request
     }
   },
 
@@ -436,7 +437,17 @@ module.exports = {
     },
 
 
-    async home_all() {return this.$api.put('home')},
+    // True while the machine is homing in response to a home request for
+    // `target`, an axis letter or 'all'.  Drives the home buttons' pulse.
+    is_homing(target) {
+      return this.mach_state == 'HOMING' && this.homing_target == target
+    },
+
+
+    async home_all() {
+      this.homing_target = 'all'
+      return this.$api.put('home')
+    },
 
 
     run() {

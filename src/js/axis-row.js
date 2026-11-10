@@ -41,7 +41,14 @@ module.exports = {
 
   computed: {
     name() {return this.axis.name.toUpperCase()},
-    is_idle() {return this.$parent.is_idle}
+    is_idle() {return this.$parent.is_idle},
+
+
+    // Pulse while this axis homes, alone or as part of home all
+    is_homing() {
+      return this.$parent.is_homing(this.axis.name) ||
+        this.$parent.is_homing('all')
+    }
   },
 
 
@@ -67,8 +74,10 @@ module.exports = {
 
 
     async home() {
-      if (this.axis.homingMode != 'manual')
+      if (this.axis.homingMode != 'manual') {
+        this.$parent.homing_target = this.axis.name
         return this.$api.put('home/' + this.axis.name)
+      }
 
       this.position = 0
 
