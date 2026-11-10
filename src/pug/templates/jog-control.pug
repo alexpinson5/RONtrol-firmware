@@ -29,7 +29,7 @@ script#jog-control-template(type="text/x-template")
   .jog-control(:class="{disabled: disabled}")
     .jog-axes.segmented
       button.pure-button(v-for="name in axes",
-        class="axis-{{name.toLowerCase()}}", :class="{active: axis == name}",
+        :class="axis_class(name)",
         :disabled="!enabled[name.toLowerCase()] || !!held",
         @click="select_axis(name)", :title="'Jog the ' + name + ' axis'")
         | {{name}}

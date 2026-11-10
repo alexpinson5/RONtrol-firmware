@@ -63,22 +63,29 @@
         position relative
         z-index 1
 
-      &.active:not([disabled])
-        color #fff
-        background accent
-        border-color accent
+  // The coloured axes are styled below
+  .segmented:not(.jog-axes) .pure-button.active:not([disabled])
+    color #fff
+    background accent
+    border-color accent
 
+  // The axes keep their colours when selected, so the selection is shown
+  // as the hover look rather than the solid fill
   .jog-axes .pure-button
     font-size 14pt
 
-    &.axis-x:not(.active)
+    &.axis-x
       color #ff5a52
-    &.axis-y:not(.active)
+    &.axis-y
       color #3ccf6e
-    &.axis-z:not(.active)
+    &.axis-z
       color #4ea3ff
-    &.axis-a:not(.active)
+    &.axis-a
       color #f80
+
+    &.active:not([disabled])
+      background accent-tint
+      border-color accent
 
   .jog-increments .pure-button
     font-family mono-font
