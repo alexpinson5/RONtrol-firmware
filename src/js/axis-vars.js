@@ -70,16 +70,9 @@ module.exports = {
       if (error) klass += ' error'
       else if (warn) klass += ' warn'
 
-      // Colours the home-all button: any axis in error wins over homing
-      let stateClass = homed ? 'homed' : 'unhomed'
-      for (let name of 'xyzabc')
-        if (this[name].enabled && this[name].stateClass == 'error')
-          stateClass = 'error'
-
       return {
         homed: homed,
-        klass: klass,
-        stateClass: stateClass
+        klass: klass
       }
     }
   },
@@ -147,7 +140,7 @@ module.exports = {
         icon = 'check-square-fill'
       }
 
-      // One word for styling the state icon and home button
+      // One word for styling the state icon
       let stateClass = homed ? 'homed' : 'unhomed'
       if (klass.indexOf('error') != -1) stateClass = 'error'
 
