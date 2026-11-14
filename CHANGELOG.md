@@ -1,6 +1,10 @@
 Buildbotics CNC Controller Firmware Changelog
 =============================================
 
+## v3.0.4
+  - No functional changes.  Released to test upgrading from 3.0.3 over the
+    network.
+
 ## v3.0.3
   - A failed firmware upgrade is reported instead of leaving the Upgrading
     dialog open: the dialog closes and shows the error, with the upgrade
