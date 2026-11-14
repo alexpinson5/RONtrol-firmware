@@ -61,7 +61,7 @@ Don't invent items. If nothing's open, say "Nothing flagged."
   `make demo`, loose `*.hex` / `*.elf`, `build/`, `dist/`.
 - **Uncommitted `package.json` changes** with no `npm install` /
   `npm audit` run since.
-- **Version or changelog drift** — `package.json` version or `CODE_TAG`
+- **Version or changelog drift** — `package.json` version
   modified without a matching `CHANGELOG.md` entry, or vice versa.
 - **Uncommitted work older than 2 hours** — one line, not a lecture.
 
