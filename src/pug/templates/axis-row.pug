@@ -31,7 +31,7 @@ script#axis-row-template(type="text/x-template")
     td.zero
       button.pure-button.square(:disabled="!is_idle", @click="zero",
         title="Zero {{name}} axis in the current offset.")
-        bi-icon(name="zero-square-fill")
+        bi-icon(name="crosshair")
     td.position(:class="{clickable: is_idle}", @click="set_position",
       title="Click to set {{name}} axis position.")
       unit-value(:value="axis.pos", precision="3", iprecision="4",
@@ -41,7 +41,7 @@ script#axis-row-template(type="text/x-template")
       bi-icon(:name="axis.icon")
     td.home
       button.pure-button.square(:disabled="!is_idle", @click="home",
-        :class="'home-' + axis.stateClass", title="Home {{name}} axis.")
+        :class="{homing: is_homing}", title="Home {{name}} axis.")
         bi-icon(name="house-door-fill")
 
       dialog(v-ref:set-position,
