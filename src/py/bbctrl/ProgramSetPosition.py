@@ -27,7 +27,22 @@
 
 from .ProgramMDI import *
 
-__all__ = ['ProgramSetPosition']
+__all__ = ['ProgramSetPosition', 'coord_system_number', 'work_offset_gcode']
+
+
+def coord_system_number(code: int) -> int:
+  '''The G10 P number for a reported coord_system: 540 (G54) is 1, 590 (G59)
+  is 6 and 591 (G59.1) is 7.'''
+  if code <= 590: return code // 10 - 53
+  return code - 584
+
+
+def work_offset_gcode(axis: str, position: float, coord_system: int) -> str:
+  '''G-code that sets the active coordinate system's offset so the current
+  position reads as position.  Unlike G92, G10 changes the offset table, which
+  is saved and survives a reset.'''
+  return 'G10 L20 P%d %s%f' % (coord_system_number(coord_system), axis,
+                                position)
 
 
 class ProgramSetPosition(ProgramMDI):
@@ -36,8 +51,8 @@ class ProgramSetPosition(ProgramMDI):
     state = ctrl.state
 
     if state.is_axis_homed(axis):
-      # If homed, change the offset rather than the absolute position
-      cmd = 'G92%s%f' % (axis, position)
+      # If homed, change the work offset rather than the absolute position
+      cmd = work_offset_gcode(axis, position, state.get('coord_system', 540))
 
     elif state.is_axis_enabled(axis):
       # Set absolute position via planner

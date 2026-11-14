@@ -1,6 +1,11 @@
 Buildbotics CNC Controller Firmware Changelog
 =============================================
 
+## v3.0.2
+  - Zero and Set Position on a homed axis now set the active coordinate
+    system's work offset (G10 L20) instead of a G92 offset.  The new zero
+    shows in the Offsets table and survives E-stop, reset and restart.
+
 ## v3.0.1
   - Fixed motor driver communication failure, and no motor power, on main
     boards with an ATxmega192A3U (Rev 16 and earlier).  Those boards need the
