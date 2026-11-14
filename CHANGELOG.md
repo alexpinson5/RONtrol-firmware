@@ -1,6 +1,14 @@
 Buildbotics CNC Controller Firmware Changelog
 =============================================
 
+## v3.0.3
+  - A failed firmware upgrade is reported instead of leaving the Upgrading
+    dialog open: the dialog closes and shows the error, with the upgrade
+    script's last lines of output in the log.
+  - Upgrade downloads time out on a dead or stalled network instead of
+    hanging, which also held the upgrade lock and made later attempts do
+    nothing.
+
 ## v3.0.2
   - Zero and Set Position on a homed axis now set the active coordinate
     system's work offset (G10 L20) instead of a G92 offset.  The new zero
