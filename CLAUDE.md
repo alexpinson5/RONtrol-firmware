@@ -238,7 +238,9 @@ it needs either a browserify/jsdom harness or the logic extracted first.
 - **Branch policy: this is a production firmware repo.** The default
   branch is `master`. Prefer feature branches and pull requests. Direct
   pushes to `master` require explicit confirmation every time.
-- Version lives in `package.json` and `CODE_TAG`; user-facing changes
+- Version lives only in `package.json`; `setup.py`, the `Makefile` and
+  `scripts/make-image.sh` read it from there.  `CODE_TAG` holds the
+  license header text, not a version.  User-facing changes
   belong in `CHANGELOG.md`. Don't bump versions unasked.
 
 ## Dependencies

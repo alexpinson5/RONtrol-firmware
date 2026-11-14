@@ -59,7 +59,7 @@ it by hand.
 
 If the change is user-facing, ask whether it belongs in `CHANGELOG.md`
 too — but don't edit `CHANGELOG.md` or bump the version in
-`package.json` / `CODE_TAG` unless asked.
+`package.json` unless asked.
 
 ## 4. Commit
 
