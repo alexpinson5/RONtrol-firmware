@@ -155,6 +155,11 @@ class LCD:
       self.timeout = self.ctrl.ioloop.call_later(1, self._update)
 
 
+  def resume(self):
+    'Return to the normal display after goodbye().'
+    if self.redraw_timer is None: self._redraw()
+
+
   def goodbye(self, message = ''):
     if self.timeout:
       self.ctrl.ioloop.remove_timeout(self.timeout)

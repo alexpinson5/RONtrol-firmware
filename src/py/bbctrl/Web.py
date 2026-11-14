@@ -49,15 +49,10 @@ from .FileSystemHandler import *
 from .Ctrl import *
 from .Users import *
 from .Sessions import *
+from .Upgrade import *
 from udevevent import UDevEvent
 
 __all__ = ['Web']
-
-
-def upgrade_command(ctrl, cmd):
-    ctrl.lcd.goodbye('Upgrading firmware')
-    subprocess.Popen(['systemd-run', '--unit=bbctrl-update', '--scope',
-                      '--slice=bbctrl-update'] + cmd)
 
 
 class RebootHandler(APIHandler):
@@ -225,13 +220,13 @@ class FirmwareUpdateHandler(APIHandler):
 
         else: raise HTTPError(400, 'Need "firmware" or "path"')
 
-        upgrade_command(self.get_ctrl(), ['/usr/local/bin/update-bbctrl'])
+        Upgrade(self.get_ctrl(), ['/usr/local/bin/update-bbctrl'])
 
 
 class UpgradeHandler(APIHandler):
     def put(self):
         self.require_admin()
-        upgrade_command(self.get_ctrl(), ['/usr/local/bin/upgrade-bbctrl'])
+        Upgrade(self.get_ctrl(), ['/usr/local/bin/upgrade-bbctrl'])
 
 
 class USBEjectHandler(APIHandler):

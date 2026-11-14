@@ -12,10 +12,20 @@ REPO=alexpinson5/RONtrol-firmware
 API=https://api.github.com/repos/$REPO/releases/latest
 DOWNLOAD=https://github.com/$REPO/releases/download
 
-(
-    flock -n 9
+# Give up on a connection that can't be made, or that stalls below 1 kB/s
+# for a minute, rather than hang the upgrade and hold its lock forever
+CURL="curl -fsSL --connect-timeout 30 --speed-limit 1024 --speed-time 60"
 
-    TAG=$(curl -fsSL "$API" |
+(
+    flock -n 9 || { echo "An upgrade is already running"; exit 1; }
+
+    if ! JSON=$($CURL "$API"); then
+      echo "Could not reach GitHub to find the latest release."
+      echo "Check the controller's network connection and clock ($(date))."
+      exit 1
+    fi
+
+    TAG=$(echo "$JSON" |
       python3 -c 'import json, sys; print(json.load(sys.stdin)["tag_name"])')
     VERSION=${TAG#v}
     PKG_NAME=bbctrl-$VERSION.tar.bz2
@@ -27,8 +37,18 @@ DOWNLOAD=https://github.com/$REPO/releases/download
     mkdir -p firmware
 
     echo Downloading $DOWNLOAD/$TAG/$PKG_NAME
-    curl -fsSL "$DOWNLOAD/$TAG/$PKG_NAME" -o $PKG
-    SUM=$(curl -fsSL "$DOWNLOAD/$TAG/$PKG_NAME.sha256" | cut -d' ' -f1)
+    if ! $CURL "$DOWNLOAD/$TAG/$PKG_NAME" -o $PKG; then
+      rm -f $PKG
+      echo "Download of $PKG_NAME failed"
+      exit 1
+    fi
+
+    if ! SUM=$($CURL "$DOWNLOAD/$TAG/$PKG_NAME.sha256"); then
+      rm -f $PKG
+      echo "Download of $PKG_NAME.sha256 failed"
+      exit 1
+    fi
+    SUM=${SUM%% *} # sha256sum line: '<sum>  <file>'
 
     if ! echo "$SUM  $PKG" | sha256sum --check --status; then
       rm -f $PKG

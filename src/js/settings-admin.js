@@ -26,6 +26,13 @@
 \******************************************************************************/
 
 
+// Script output shown in a dialog, whose body is rendered as HTML
+function escape_html(text) {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
+
 module.exports = {
   template: '#settings-admin-template',
   props: ['config', 'state'],
@@ -44,6 +51,24 @@ module.exports = {
       enableKeyboard: true,
       autoCheckUpgrade: true,
       boardRevision: 'auto',
+      upgrading: false
+    }
+  },
+
+
+  events: {
+    // A failed upgrade leaves bbctrl running and reports why.  A good one
+    // restarts bbctrl, and app.js reloads the page.
+    log(msg) {
+      let error = msg.level == 'error' || msg.level == 'critical'
+
+      if (this.upgrading && error && msg.source == 'Upgrade') {
+        this.upgrading = false
+        this.$refs.upgrading.close()
+        this.$root.error_dialog('<pre>' + escape_html(msg.msg) + '</pre>')
+      }
+
+      return true // Let other components see it too
     }
   },
 
@@ -314,7 +339,7 @@ module.exports = {
     async upgrade() {
       if (await this.$refs.upgrade.open() == 'upgrade') {
         await this.$api.put('upgrade')
-        await this.$refs.upgrading.open()
+        await this.show_upgrading()
       }
     },
 
@@ -332,7 +357,13 @@ module.exports = {
           form: file => ({firmware: file}),
         })
 
-      await this.$refs.upgrading.open()
+      await this.show_upgrading()
+    },
+
+
+    show_upgrading() {
+      this.upgrading = true
+      return this.$refs.upgrading.open()
     },
 
 
