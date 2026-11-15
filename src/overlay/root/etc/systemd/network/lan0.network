@@ -1,5 +1,5 @@
 [Match]
-Name=end0
+Type=ether
 
 [Network]
 DHCP=ipv4

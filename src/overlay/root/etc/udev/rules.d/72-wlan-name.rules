@@ -1,2 +1,2 @@
 ACTION=="add", SUBSYSTEM=="net", SUBSYSTEMS=="sdio", KERNELS=="mmc1:0001:1", NAME="wlan0"
-ACTION=="add", SUBSYSTEM=="net", SUBSYSTEMS=="usb",  NAME="wlan1"
+ACTION=="add", SUBSYSTEM=="net", SUBSYSTEMS=="usb", ENV{DEVTYPE}=="wlan", NAME="wlan1"
