@@ -1,6 +1,13 @@
 Buildbotics CNC Controller Firmware Changelog
 =============================================
 
+## Unreleased
+  - SD card image: the clock now sets itself from the network on a Pi 3 on a
+    wired connection.  The Pi 3's Ethernet port is on USB and was named like
+    a USB Wi-Fi adapter, so the network was never seen as up and time sync
+    never started; with the clock wrong, upgrades from GitHub failed.  Only
+    new images are fixed, firmware upgrades do not change these files.
+
 ## v3.0.4
   - No functional changes.  Released to test upgrading from 3.0.3 over the
     network.
