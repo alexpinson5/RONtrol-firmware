@@ -1,0 +1,61 @@
+/******************************************************************************\
+
+                  This file is part of the Buildbotics firmware.
+
+         Copyright (c) 2015 - 2023, Buildbotics LLC, All rights reserved.
+
+          This Source describes Open Hardware and is licensed under the
+                                  CERN-OHL-S v2.
+
+          You may redistribute and modify this Source and make products
+     using it under the terms of the CERN-OHL-S v2 (https:/cern.ch/cern-ohl).
+            This Source is distributed WITHOUT ANY EXPRESS OR IMPLIED
+     WARRANTY, INCLUDING OF MERCHANTABILITY, SATISFACTORY QUALITY AND FITNESS
+      FOR A PARTICULAR PURPOSE. Please see the CERN-OHL-S v2 for applicable
+                                   conditions.
+
+                 Source location: https://github.com/buildbotics
+
+       As per CERN-OHL-S v2 section 4, should You produce hardware based on
+     these sources, You must maintain the Source Location clearly visible on
+     the external case of the CNC Controller or other product you make using
+                                   this Source.
+
+                 For more information, email info@buildbotics.com
+
+\******************************************************************************/
+
+
+const TABS = ['routines', 'toolsetter', 'spindle']
+
+
+module.exports = {
+  template: '#view-probing-template',
+
+
+  data() {
+    return {
+      tab: 'routines'
+    }
+  },
+
+
+  events: {
+    route(path) {this.route(path)}
+  },
+
+
+  // The route event may come before this view exists
+  ready() {this.route(location.hash.substr(1).split(':'))},
+
+
+  methods: {
+    route(path) {
+      if (path[0] == 'probing' && TABS.indexOf(path[1]) != -1)
+        this.tab = path[1]
+    },
+
+
+    show_tab(tab) {this.tab = tab}
+  }
+}

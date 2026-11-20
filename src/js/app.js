@@ -99,7 +99,7 @@ module.exports = new Vue({
     'estop':          {template: '#estop-template'},
     'view-loading':   {template: '<h1>Loading...</h1>'},
     'view-control':   require('./view-control'),
-    'view-probing':   {template: '#view-probing-template'},
+    'view-probing':   require('./view-probing'),
     'view-offsets':   require('./view-offsets'),
     'view-editor':    require('./view-editor'),
     'view-settings':  require('./view-settings'),

@@ -26,8 +26,32 @@
 //-/////////////////////////////////////////////////////////////////////////////
 
 script#view-probing-template(type="text/x-template")
-  .placeholder-view
-    .fa.fa-crosshairs
-    h1 Probing
-    p Guided probing routines for setting work origins and measuring stock will live here.
-    p.muted Coming soon
+  .probing-view
+    nav.navbar
+      a.nav-item(href="#probing:routines", :class="{active: tab == 'routines'}",
+        @click="show_tab('routines')") Probing Routines
+      a.nav-item(href="#probing:toolsetter",
+        :class="{active: tab == 'toolsetter'}",
+        @click="show_tab('toolsetter')") Toolsetter Configuration
+      a.nav-item(href="#probing:spindle", :class="{active: tab == 'spindle'}",
+        @click="show_tab('spindle')") Spindle Probe Configuration
+
+    .placeholder-view(v-if="tab == 'routines'")
+      .fa.fa-crosshairs
+      h1 Probing Routines
+      p Guided routines for setting work origins, measuring stock and
+        |  measuring tool lengths will live here.
+      p.muted Coming soon
+
+    .placeholder-view(v-if="tab == 'toolsetter'")
+      .fa.fa-crosshairs
+      h1 Toolsetter Configuration
+      p Settings for the fixed tool setter used to measure tool lengths will
+        |  live here.
+      p.muted Coming soon
+
+    .placeholder-view(v-if="tab == 'spindle'")
+      .fa.fa-crosshairs
+      h1 Spindle Probe Configuration
+      p Settings for the touch probe held in the spindle will live here.
+      p.muted Coming soon
